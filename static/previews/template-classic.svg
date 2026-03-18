@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="320" viewBox="0 0 520 320" role="img" aria-labelledby="title desc">
+  <title id="title">Classic Board Preview</title>
+  <desc id="desc">Top header bar with detailed subject table</desc>
+  <rect width="520" height="320" fill="#eef2ff"/>
+  <rect x="0" y="0" width="520" height="92" fill="#1638B7"/>
+  <text x="26" y="40" fill="#ffffff" font-family="Arial, sans-serif" font-size="22" font-weight="700">Classic Board</text>
+  <text x="26" y="66" fill="#dfe8ff" font-family="Arial, sans-serif" font-size="12">School Header + Full Subject Table</text>
+
+  <rect x="24" y="108" width="472" height="188" rx="12" fill="#ffffff" stroke="#bfd0ff"/>
+  <rect x="24" y="108" width="472" height="28" rx="12" fill="#1D4ED8"/>
+
+  <text x="42" y="126" fill="#ffffff" font-family="Arial, sans-serif" font-size="11">Subject</text>
+  <text x="228" y="126" fill="#ffffff" font-family="Arial, sans-serif" font-size="11">Class</text>
+  <text x="296" y="126" fill="#ffffff" font-family="Arial, sans-serif" font-size="11">Exam</text>
+  <text x="354" y="126" fill="#ffffff" font-family="Arial, sans-serif" font-size="11">Final</text>
+  <text x="410" y="126" fill="#ffffff" font-family="Arial, sans-serif" font-size="11">Pos</text>
+
+  <g fill="#eff5ff" stroke="#d8e3ff">
+    <rect x="24" y="136" width="472" height="31"/>
+    <rect x="24" y="167" width="472" height="31" fill="#f8faff"/>
+    <rect x="24" y="198" width="472" height="31"/>
+    <rect x="24" y="229" width="472" height="31" fill="#f8faff"/>
+  </g>
+
+  <text x="42" y="156" fill="#1e293b" font-family="Arial, sans-serif" font-size="11">Chemistry</text>
+  <text x="42" y="187" fill="#1e293b" font-family="Arial, sans-serif" font-size="11">Mathematics</text>
+  <text x="42" y="218" fill="#1e293b" font-family="Arial, sans-serif" font-size="11">Physics</text>
+  <text x="42" y="249" fill="#1e293b" font-family="Arial, sans-serif" font-size="11">English</text>
+</svg>

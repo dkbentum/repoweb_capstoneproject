@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="320" viewBox="0 0 520 320" role="img" aria-labelledby="title desc">
+  <title id="title">Modern Split Preview</title>
+  <desc id="desc">Vertical sidebar with compact report section</desc>
+  <rect width="520" height="320" fill="#f1faf8"/>
+  <rect x="0" y="0" width="150" height="320" fill="#0D7A5F"/>
+  <text x="20" y="34" fill="#ffffff" font-family="Arial, sans-serif" font-size="19" font-weight="700">Modern</text>
+  <text x="20" y="53" fill="#d6fff1" font-family="Arial, sans-serif" font-size="12">Split Layout</text>
+
+  <rect x="18" y="86" width="114" height="76" rx="8" fill="#1f9073"/>
+  <rect x="18" y="174" width="114" height="60" rx="8" fill="#2ca384"/>
+  <text x="28" y="108" fill="#ffffff" font-family="Arial, sans-serif" font-size="10">Student</text>
+  <text x="28" y="124" fill="#ffffff" font-family="Arial, sans-serif" font-size="10">Overall Pos</text>
+
+  <text x="170" y="38" fill="#123128" font-family="Arial, sans-serif" font-size="22" font-weight="700">Report Card</text>
+  <rect x="170" y="52" width="332" height="26" rx="8" fill="#d9f5ee"/>
+
+  <rect x="170" y="92" width="332" height="194" rx="10" fill="#ffffff" stroke="#b8e2d6"/>
+  <rect x="170" y="92" width="332" height="24" rx="10" fill="#157a61"/>
+
+  <g fill="#ecf8f4" stroke="#d8ece5">
+    <rect x="170" y="116" width="332" height="30"/>
+    <rect x="170" y="146" width="332" height="30" fill="#f8fcfb"/>
+    <rect x="170" y="176" width="332" height="30"/>
+    <rect x="170" y="206" width="332" height="30" fill="#f8fcfb"/>
+    <rect x="170" y="236" width="332" height="30"/>
+  </g>
+</svg>

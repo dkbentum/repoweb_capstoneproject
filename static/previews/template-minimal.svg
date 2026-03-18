@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="320" viewBox="0 0 520 320" role="img" aria-labelledby="title desc">
+  <title id="title">Minimal Ledger Preview</title>
+  <desc id="desc">Thin top strip with structured clean blocks</desc>
+  <rect width="520" height="320" fill="#fffdf9"/>
+  <rect x="0" y="0" width="520" height="14" fill="#C96B1C"/>
+
+  <text x="24" y="42" fill="#2d2a25" font-family="Arial, sans-serif" font-size="22" font-weight="700">Minimal Ledger</text>
+  <line x1="24" y1="56" x2="496" y2="56" stroke="#d6c5b1" stroke-width="1.4"/>
+
+  <rect x="24" y="72" width="472" height="42" rx="8" fill="#fff6ec" stroke="#e6d3be"/>
+  <text x="38" y="97" fill="#5f4631" font-family="Arial, sans-serif" font-size="12">Student and Session Details</text>
+
+  <rect x="24" y="124" width="472" height="130" rx="10" fill="#ffffff" stroke="#e8dbca"/>
+  <rect x="24" y="124" width="472" height="24" rx="10" fill="#b65f18"/>
+  <g fill="#fff9f3" stroke="#f0e4d6">
+    <rect x="24" y="148" width="472" height="26"/>
+    <rect x="24" y="174" width="472" height="26" fill="#ffffff"/>
+    <rect x="24" y="200" width="472" height="26"/>
+    <rect x="24" y="226" width="472" height="26" fill="#ffffff"/>
+  </g>
+
+  <rect x="24" y="264" width="472" height="34" rx="8" fill="#fff1e2" stroke="#e7ccb0"/>
+  <text x="38" y="286" fill="#6c4a2a" font-family="Arial, sans-serif" font-size="12">Summary block: average, overall position, remark</text>
+</svg>

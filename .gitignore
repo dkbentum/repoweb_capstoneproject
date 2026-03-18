@@ -1,0 +1,6 @@
+generated/
+.venv/
+venv/
+__pycache__/
+*.zip
+*.pdf

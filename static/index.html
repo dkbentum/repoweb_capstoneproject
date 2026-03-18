@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Report Card Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="glow glow-a"></div>
+  <div class="glow glow-b"></div>
+
+  <main class="page">
+    <section class="hero reveal">
+      <p class="eyebrow">One-page, full-stack workflow</p>
+      <h1>Report Card Generator</h1>
+      <p class="subtitle">
+        Upload one Excel file per subject, set weighted scoring, choose a layout and color system, and generate ranked report cards with school branding.
+      </p>
+      <div class="hero-meta">
+        <span>Frontend: HTML, CSS, JavaScript</span>
+        <span>Backend: Python + Flask</span>
+      </div>
+    </section>
+
+    <section class="panel reveal" id="template-panel">
+      <div class="panel-head">
+        <h2>1. Download Subject Template</h2>
+        <p>Each subject file must contain: <strong>student ID</strong>, <strong>Name</strong>, <strong>ClassScore</strong>, <strong>ExamScore</strong>.</p>
+      </div>
+      <button id="download-template-btn" class="btn btn-accent" type="button">Download Excel Template</button>
+    </section>
+
+    <section class="panel reveal">
+      <div class="panel-head">
+        <h2>2. Configure School, Scores, and Design</h2>
+        <p>Everything selected here will be applied across all generated report cards.</p>
+      </div>
+
+      <form id="generator-form" class="form-grid">
+        <label>
+          <span>School Name</span>
+          <input type="text" name="school_name" placeholder="Bright Future Academy" required />
+        </label>
+
+        <label>
+          <span>School Address</span>
+          <input type="text" name="school_address" placeholder="12 Unity Road, Lagos" required />
+        </label>
+
+        <label>
+          <span>Principal Name</span>
+          <input type="text" name="principal_name" placeholder="Mrs. A. Johnson" required />
+        </label>
+
+        <label>
+          <span>Session</span>
+          <input type="text" name="session" placeholder="2025/2026" required />
+        </label>
+
+        <label>
+          <span>Term</span>
+          <input type="text" name="term" placeholder="First Term" required />
+        </label>
+
+        <label>
+          <span>Default Class (optional)</span>
+          <input type="text" name="default_class" placeholder="JSS 2" />
+        </label>
+
+        <label>
+          <span>ClassScore Percentage (%)</span>
+          <input type="number" name="class_weight" min="0" max="100" step="0.01" value="40" required />
+        </label>
+
+        <label>
+          <span>ExamScore Percentage (%)</span>
+          <input type="number" name="exam_weight" min="0" max="100" step="0.01" value="60" required />
+        </label>
+
+        <div class="design-block">
+          <div>
+            <h3>3. Template Structure</h3>
+            <p>Select one report-card structure style.</p>
+          </div>
+
+          <div class="template-grid" id="template-grid">
+            <label class="template-card selected">
+              <input type="radio" name="template_id" value="classic" checked />
+              <img src="/static/previews/template-classic.svg" alt="Classic board template preview" />
+              <strong>Classic Board</strong>
+              <small>Strong school header with full-width subject table.</small>
+            </label>
+
+            <label class="template-card">
+              <input type="radio" name="template_id" value="modern" />
+              <img src="/static/previews/template-modern.svg" alt="Modern split template preview" />
+              <strong>Modern Split</strong>
+              <small>Identity sidebar with compact report architecture.</small>
+            </label>
+
+            <label class="template-card">
+              <input type="radio" name="template_id" value="minimal" />
+              <img src="/static/previews/template-minimal.svg" alt="Minimal ledger template preview" />
+              <strong>Minimal Ledger</strong>
+              <small>Quiet design with clean blocks and subtle contrast.</small>
+            </label>
+          </div>
+
+          <div class="color-lab">
+            <div class="color-lab-head">
+              <h4>4. Infinite Color Board</h4>
+              <p>Use any hex color combination. You are not limited to presets.</p>
+            </div>
+
+            <div class="color-grid">
+              <label class="color-field">
+                <span>Primary Color</span>
+                <div class="color-control">
+                  <input id="primary-color-input" type="color" name="primary_color" value="#1638b7" />
+                  <input id="primary-color-hex" class="hex-input" type="text" value="#1638B7" />
+                </div>
+              </label>
+
+              <label class="color-field">
+                <span>Secondary Color</span>
+                <div class="color-control">
+                  <input id="secondary-color-input" type="color" name="secondary_color" value="#0f2f92" />
+                  <input id="secondary-color-hex" class="hex-input" type="text" value="#0F2F92" />
+                </div>
+              </label>
+
+              <label class="color-field">
+                <span>Surface Color</span>
+                <div class="color-control">
+                  <input id="surface-color-input" type="color" name="surface_color" value="#e8eeff" />
+                  <input id="surface-color-hex" class="hex-input" type="text" value="#E8EEFF" />
+                </div>
+              </label>
+            </div>
+
+            <button id="random-palette-btn" type="button" class="btn btn-ghost">Randomize Palette</button>
+          </div>
+
+          <div class="logo-lab">
+            <div>
+              <h4>5. School Logo Branding</h4>
+              <p>Upload logo and choose how it appears in the PDF layout.</p>
+            </div>
+
+            <div class="logo-controls">
+              <label class="file-picker logo-picker">
+                <input id="school-logo" name="school_logo" type="file" accept=".png,.jpg,.jpeg,.webp,.bmp" />
+                <span>Upload School Logo</span>
+              </label>
+
+              <label>
+                <span>Logo Placement Style</span>
+                <select id="logo-style" name="logo_style">
+                  <option value="header_badge">Header Badge</option>
+                  <option value="watermark">Watermark</option>
+                  <option value="corner_stamp">Corner Stamp</option>
+                  <option value="side_mark">Side Mark</option>
+                </select>
+              </label>
+
+              <label id="logo-opacity-row" class="opacity-row hidden">
+                <span>Watermark Strength (%)</span>
+                <div class="opacity-wrap">
+                  <input id="logo-opacity" type="range" name="logo_opacity" min="5" max="45" value="14" />
+                  <strong id="logo-opacity-value">14%</strong>
+                </div>
+              </label>
+            </div>
+
+            <div id="logo-preview-wrap" class="logo-preview-wrap hidden">
+              <img id="logo-preview" alt="School logo preview" />
+              <p id="logo-meta">Logo preview</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="upload-block">
+          <div>
+            <h3>6. Upload Subject Files</h3>
+            <p>Upload multiple files. File names become subject names and are used for subject rankings.</p>
+          </div>
+
+          <label class="file-picker">
+            <input id="subject-files" name="subject_files" type="file" multiple accept=".xlsx,.xls,.csv" required />
+            <span>Select Excel Files</span>
+          </label>
+
+          <ul id="file-list" class="file-list"></ul>
+        </div>
+
+        <div class="actions">
+          <button id="generate-btn" class="btn btn-primary" type="submit">Generate Report Cards</button>
+          <p id="status" class="status">Waiting for input.</p>
+        </div>
+      </form>
+    </section>
+
+    <section id="results" class="panel reveal hidden">
+      <div class="panel-head">
+        <h2>7. Download Results</h2>
+        <p>Your reports are ready.</p>
+      </div>
+
+      <div class="result-actions">
+        <a id="compiled-link" class="btn btn-primary" href="#" target="_blank" rel="noopener">Download Compiled PDF</a>
+        <a id="zip-link" class="btn btn-ghost" href="#" target="_blank" rel="noopener">Download ZIP (All PDFs)</a>
+      </div>
+
+      <div id="summary" class="summary"></div>
+      <ul id="student-links" class="student-links"></ul>
+      <div id="warnings" class="warnings"></div>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
