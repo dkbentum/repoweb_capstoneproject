@@ -1,13 +1,14 @@
-xit
-
 import io
+import os
 import re
+import shutil
+import time
 import uuid
 import zipfile
 from pathlib import Path
 
 import pandas as pd
-from flask import Flask, jsonify, request, send_file, send_from_directory
+from flask import Flask, after_this_request, jsonify, request, send_file, send_from_directory
 from PIL import Image
 from pypdf import PdfWriter
 from reportlab.lib import colors
@@ -22,7 +23,8 @@ from werkzeug.utils import secure_filename
 
 BASE_DIR = Path(__file__).resolve().parent
 STATIC_DIR = BASE_DIR / "static"
-GENERATED_DIR = BASE_DIR / "generated"
+default_generated_dir = "/tmp/generated" if os.environ.get("VERCEL") else str(BASE_DIR / "generated")
+GENERATED_DIR = Path(os.environ.get("GENERATED_DIR", default_generated_dir))
 GENERATED_DIR.mkdir(parents=True, exist_ok=True)
 
 DEFAULT_PRIMARY = "#1638B7"
@@ -736,6 +738,34 @@ def create_excel_template():
     return output
 
 
+def cleanup_generated_jobs(max_age_seconds: int = 3600):
+    if not GENERATED_DIR.exists():
+        return
+
+    now = time.time()
+    for entry in GENERATED_DIR.iterdir():
+        if not entry.is_dir():
+            continue
+        try:
+            age = now - entry.stat().st_mtime
+            if age > max_age_seconds:
+                shutil.rmtree(entry, ignore_errors=True)
+        except Exception:
+            continue
+
+
+def prune_empty_parents(path: Path, stop_at: Path):
+    current = path
+    while True:
+        if not current.exists() or current == stop_at:
+            break
+        try:
+            current.rmdir()
+        except OSError:
+            break
+        current = current.parent
+
+
 @app.get("/")
 def index():
     return send_from_directory(STATIC_DIR, "index.html")
@@ -754,6 +784,8 @@ def download_template():
 
 @app.post("/api/generate")
 def generate_reports():
+    cleanup_generated_jobs(max_age_seconds=3600)
+
     subject_files = request.files.getlist("subject_files")
     if not subject_files:
         return jsonify({"error": "Upload at least one subject file."}), 400
@@ -841,7 +873,7 @@ def generate_reports():
                 "subject_positions": {
                     subject: details["subject_position"] for subject, details in sorted(student["subjects"].items())
                 },
-                "pdf_url": f"/api/download/{job_id}/students/{pdf_name}",
+                "pdf_url": f"/api/download/{job_id}/students/{pdf_name}?delete=1",
             }
         )
 
@@ -878,8 +910,8 @@ def generate_reports():
             "logo_style_label": LOGO_STYLE_LABELS[school["logo_style"]],
             "logo_opacity": school["logo_opacity"],
             "warnings": warnings,
-            "compiled_pdf_url": f"/api/download/{job_id}/{compiled_pdf_name}",
-            "zip_url": f"/api/download/{job_id}/{zip_name}",
+            "compiled_pdf_url": f"/api/download/{job_id}/{compiled_pdf_name}?delete=1",
+            "zip_url": f"/api/download/{job_id}/{zip_name}?delete=1",
             "students": student_payload,
         }
     )
@@ -889,11 +921,29 @@ def download_generated(job_id, filename):
     safe_job_id = secure_filename(job_id)
     base = (GENERATED_DIR / safe_job_id).resolve()
     target = (base / filename).resolve()
+    delete_after = str(request.args.get("delete", "")).strip().lower() in {"1", "true", "yes"}
 
     if base not in target.parents and target != base:
         return jsonify({"error": "Invalid file path."}), 400
     if not target.exists() or not target.is_file():
         return jsonify({"error": "File not found."}), 404
+
+    if delete_after:
+        @after_this_request
+        def remove_generated_files(response):
+            try:
+                # If ZIP is downloaded, remove the whole job folder at once.
+                if target.name == "all_report_cards.zip":
+                    shutil.rmtree(base, ignore_errors=True)
+                    return response
+
+                # Otherwise delete only the downloaded file and prune empty folders.
+                if target.exists():
+                    target.unlink(missing_ok=True)
+                prune_empty_parents(target.parent, base)
+            except Exception:
+                pass
+            return response
 
     return send_file(target, as_attachment=True)
 
