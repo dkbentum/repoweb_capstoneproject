@@ -131,8 +131,19 @@ body {
   color: var(--ink-soft);
 }
 
-.form-grid {
+.wizard-form {
+  display: grid;
+  gap: 26px;
+}
+
+.panel-content {
   margin-top: 20px;
+  display: grid;
+  gap: 14px;
+}
+
+.form-grid {
+  margin-top: 0;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
@@ -531,6 +542,14 @@ input[type="color"] {
 
 .reveal:nth-child(4) {
   animation-delay: 270ms;
+}
+
+.reveal:nth-child(5) {
+  animation-delay: 360ms;
+}
+
+.reveal:nth-child(6) {
+  animation-delay: 450ms;
 }
 
 @keyframes rise {
